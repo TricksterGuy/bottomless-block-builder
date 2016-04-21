@@ -22,6 +22,7 @@ bool BBBApp::OnInit()
     SetAppName("Bottomless Block Builder");
 
     wxBitmap bitmap("panels_gfx.png");
+    panelImages.push_back(bitmap.GetSubBitmap(wxRect(112, 16, 16, 16)));
     panelImages.push_back(bitmap.GetSubBitmap(wxRect(0, 0, 16, 16)));
     panelImages.push_back(bitmap.GetSubBitmap(wxRect(16, 0, 16, 16)));
     panelImages.push_back(bitmap.GetSubBitmap(wxRect(32, 0, 16, 16)));

@@ -14,17 +14,18 @@ class PanelDisplay;
 class wxBitmapToggleButton;
 
 #include <wx/string.h>
-#include <wx/stattext.h>
+#include <wx/bitmap.h>
+#include <wx/image.h>
+#include <wx/icon.h>
+#include <wx/menu.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/stattext.h>
 #include <wx/choice.h>
 #include <wx/spinctrl.h>
 #include <wx/sizer.h>
-#include <wx/bitmap.h>
-#include <wx/image.h>
-#include <wx/icon.h>
 #include <wx/bmpbuttn.h>
 #include <wx/button.h>
 #include <wx/panel.h>
@@ -32,6 +33,10 @@ class wxBitmapToggleButton;
 
 ///////////////////////////////////////////////////////////////////////////
 
+#define ID_LOAD 1000
+#define ID_SAVE 1001
+#define ID_EXIT 1002
+#define ID_CLEAR 1003
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class BBBGui
@@ -41,15 +46,18 @@ class BBBGui : public wxFrame
 	private:
 	
 	protected:
+		wxMenuBar* m_menubar1;
+		wxMenu* file;
+		wxMenu* edit;
 		wxPanel* m_panel1;
 		wxStaticText* m_staticText1;
-		wxChoice* m_choice1;
-		wxStaticText* m_staticText2;
-		wxSpinCtrl* m_spinCtrl1;
-		wxStaticText* m_staticText4;
-		wxSpinCtrl* m_spinCtrl3;
+		wxChoice* mode;
+		wxStaticText* linesText;
+		wxSpinCtrl* lines;
+		wxStaticText* startingLinesText;
+		wxSpinCtrl* startingLines;
 		wxStaticText* m_staticText3;
-		wxSpinCtrl* m_spinCtrl2;
+		wxSpinCtrl* moves;
 		wxBitmapToggleButton* m_bpButton1;
 		wxBitmapToggleButton* m_bpButton2;
 		wxBitmapToggleButton* m_bpButton3;
@@ -63,6 +71,8 @@ class BBBGui : public wxFrame
 		wxPanel* m_panel3;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnLoad( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnSave( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSetMode( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnLinesUpdate( wxSpinEvent& event ) { event.Skip(); }
 		

@@ -16,6 +16,31 @@ BBBGui::BBBGui( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
+	m_menubar1 = new wxMenuBar( 0 );
+	file = new wxMenu();
+	wxMenuItem* load;
+	load = new wxMenuItem( file, ID_LOAD, wxString( wxT("Load") ) + wxT('\t') + wxT("Ctrl+O"), wxEmptyString, wxITEM_NORMAL );
+	file->Append( load );
+	
+	wxMenuItem* save;
+	save = new wxMenuItem( file, ID_SAVE, wxString( wxT("Save") ) + wxT('\t') + wxT("Ctrl+S"), wxEmptyString, wxITEM_NORMAL );
+	file->Append( save );
+	
+	wxMenuItem* exit;
+	exit = new wxMenuItem( file, ID_EXIT, wxString( wxT("Exit") ) + wxT('\t') + wxT("Alt+F4"), wxEmptyString, wxITEM_NORMAL );
+	file->Append( exit );
+	
+	m_menubar1->Append( file, wxT("File") ); 
+	
+	edit = new wxMenu();
+	wxMenuItem* clear;
+	clear = new wxMenuItem( edit, ID_CLEAR, wxString( wxT("Clear") ) , wxEmptyString, wxITEM_NORMAL );
+	edit->Append( clear );
+	
+	m_menubar1->Append( edit, wxT("Edit") ); 
+	
+	this->SetMenuBar( m_menubar1 );
+	
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxVERTICAL );
 	
@@ -36,32 +61,40 @@ BBBGui::BBBGui( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	m_staticText1->Wrap( -1 );
 	fgSizer1->Add( m_staticText1, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	wxString m_choice1Choices[] = { wxT("Puzzle"), wxT("Mission") };
-	int m_choice1NChoices = sizeof( m_choice1Choices ) / sizeof( wxString );
-	m_choice1 = new wxChoice( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_choice1NChoices, m_choice1Choices, 0 );
-	m_choice1->SetSelection( 0 );
-	fgSizer1->Add( m_choice1, 1, wxALL|wxEXPAND, 5 );
+	wxString modeChoices[] = { wxT("Puzzle"), wxT("Mission") };
+	int modeNChoices = sizeof( modeChoices ) / sizeof( wxString );
+	mode = new wxChoice( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, modeNChoices, modeChoices, 0 );
+	mode->SetSelection( 0 );
+	fgSizer1->Add( mode, 1, wxALL|wxEXPAND, 5 );
 	
-	m_staticText2 = new wxStaticText( m_panel1, wxID_ANY, wxT("Lines:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText2->Wrap( -1 );
-	fgSizer1->Add( m_staticText2, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	linesText = new wxStaticText( m_panel1, wxID_ANY, wxT("Lines:"), wxDefaultPosition, wxDefaultSize, 0 );
+	linesText->Wrap( -1 );
+	linesText->Hide();
 	
-	m_spinCtrl1 = new wxSpinCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 11, 1000, 11 );
-	fgSizer1->Add( m_spinCtrl1, 1, wxALL|wxEXPAND, 5 );
+	fgSizer1->Add( linesText, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_staticText4 = new wxStaticText( m_panel1, wxID_ANY, wxT("Starting Lines"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText4->Wrap( -1 );
-	fgSizer1->Add( m_staticText4, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	lines = new wxSpinCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 11, 1000, 11 );
+	lines->Hide();
 	
-	m_spinCtrl3 = new wxSpinCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 11, 0 );
-	fgSizer1->Add( m_spinCtrl3, 0, wxALL, 5 );
+	fgSizer1->Add( lines, 1, wxALL|wxEXPAND, 5 );
+	
+	startingLinesText = new wxStaticText( m_panel1, wxID_ANY, wxT("Starting Lines"), wxDefaultPosition, wxDefaultSize, 0 );
+	startingLinesText->Wrap( -1 );
+	startingLinesText->Hide();
+	
+	fgSizer1->Add( startingLinesText, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
+	
+	startingLines = new wxSpinCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 11, 11 );
+	startingLines->Hide();
+	
+	fgSizer1->Add( startingLines, 0, wxALL, 5 );
 	
 	m_staticText3 = new wxStaticText( m_panel1, wxID_ANY, wxT("Moves:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText3->Wrap( -1 );
 	fgSizer1->Add( m_staticText3, 0, wxALL|wxALIGN_CENTER_VERTICAL, 5 );
 	
-	m_spinCtrl2 = new wxSpinCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 1000000, 0 );
-	fgSizer1->Add( m_spinCtrl2, 1, wxALL|wxEXPAND, 5 );
+	moves = new wxSpinCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 1000000, 0 );
+	fgSizer1->Add( moves, 1, wxALL|wxEXPAND, 5 );
 	
 	
 	bSizer3->Add( fgSizer1, 0, 0, 5 );
@@ -135,14 +168,18 @@ BBBGui::BBBGui( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	m_choice1->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( BBBGui::OnSetMode ), NULL, this );
-	m_spinCtrl1->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnLinesUpdate ), NULL, this );
+	this->Connect( load->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnLoad ) );
+	this->Connect( save->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnSave ) );
+	mode->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( BBBGui::OnSetMode ), NULL, this );
+	lines->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnLinesUpdate ), NULL, this );
 }
 
 BBBGui::~BBBGui()
 {
 	// Disconnect Events
-	m_choice1->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( BBBGui::OnSetMode ), NULL, this );
-	m_spinCtrl1->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnLinesUpdate ), NULL, this );
+	this->Disconnect( ID_LOAD, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnLoad ) );
+	this->Disconnect( ID_SAVE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnSave ) );
+	mode->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( BBBGui::OnSetMode ), NULL, this );
+	lines->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnLinesUpdate ), NULL, this );
 	
 }

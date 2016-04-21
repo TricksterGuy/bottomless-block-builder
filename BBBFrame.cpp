@@ -7,15 +7,15 @@ extern std::vector<wxBitmap> panelImages;
 
 BBBFrame::BBBFrame() : BBBGui(NULL)
 {
-    m_bpButton1->SetBitmap(panelImages[0]);
-    m_bpButton2->SetBitmap(panelImages[1]);
-    m_bpButton3->SetBitmap(panelImages[2]);
-    m_bpButton4->SetBitmap(panelImages[3]);
-    m_bpButton5->SetBitmap(panelImages[4]);
-    m_bpButton6->SetBitmap(panelImages[5]);
-    m_bpButton7->SetBitmap(panelImages[6]);
-    m_bpButton8->SetBitmap(panelImages[7]);
-    m_bpButton9->SetBitmap(wxBitmap(16, 16));
+    m_bpButton1->SetBitmap(panelImages[1]);
+    m_bpButton2->SetBitmap(panelImages[2]);
+    m_bpButton3->SetBitmap(panelImages[3]);
+    m_bpButton4->SetBitmap(panelImages[4]);
+    m_bpButton5->SetBitmap(panelImages[5]);
+    m_bpButton6->SetBitmap(panelImages[6]);
+    m_bpButton7->SetBitmap(panelImages[7]);
+    m_bpButton8->SetBitmap(panelImages[8]);
+    m_bpButton9->SetBitmap(panelImages[0]);
 
 	m_bpButton1->Connect(wxEVT_TOGGLEBUTTON, wxCommandEventHandler(BBBFrame::OnPanelChoose), NULL, this);
 	m_bpButton2->Connect(wxEVT_TOGGLEBUTTON, wxCommandEventHandler(BBBFrame::OnPanelChoose), NULL, this);
@@ -46,7 +46,22 @@ BBBFrame::~BBBFrame()
 
 void BBBFrame::OnSetMode(wxCommandEvent& event)
 {
-
+    if (event.GetSelection() == 0)
+    {
+        lines->Hide();
+        linesText->Hide();
+        startingLines->Hide();
+        startingLinesText->Hide();
+        lines->SetValue(11);
+        startingLines->SetValue(11);
+    }
+    else
+    {
+        lines->Show();
+        linesText->Show();
+        startingLines->Show();
+        startingLinesText->Show();
+    }
 }
 
 void BBBFrame::OnLinesUpdate(wxSpinEvent& event)

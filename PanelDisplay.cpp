@@ -30,12 +30,8 @@ void PanelDisplay::OnDraw(wxDC& dc)
         for (int j = 0; j < table.width(); j++)
         {
             Panel::Type p = table.value(i, j);
-            if (p == Panel::Type::EMPTY)
-            {
-                dc.DrawRectangle(j * 16, i * 16, 16, 16);
-                continue;
-            }
-            dc.DrawBitmap(panelImages[(int)p - 1], j * 16, i * 16);
+            dc.DrawRectangle(j * 16, i * 16, 16, 16);
+            dc.DrawBitmap(panelImages[(int)p], j * 16, i * 16);
         }
     }
 }
