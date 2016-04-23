@@ -197,7 +197,7 @@
                         <property name="label">Clear</property>
                         <property name="name">clear</property>
                         <property name="permission">none</property>
-                        <property name="shortcut"></property>
+                        <property name="shortcut">Ctrl+C</property>
                         <property name="unchecked_bitmap"></property>
                         <event name="OnMenuSelection">OnClear</event>
                         <event name="OnUpdateUI"></event>

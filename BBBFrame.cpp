@@ -66,7 +66,11 @@ void BBBFrame::OnSave(wxCommandEvent& event)
 {
     wxFileDialog* dialog = new wxFileDialog(NULL, _("Save .bbb file"), wxEmptyString, wxEmptyString, _("BBB puzzle files (*.bbb)|*.bbb"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT|wxFD_CHANGE_DIR);
     if (dialog->ShowModal() == wxID_OK)
-        panel_display->Save(dialog->GetPath().ToStdString());
+    {
+        wxFileName file(dialog->GetPath());
+        file.SetExt(_("bbb"));
+        panel_display->Save(file.GetFullPath().ToStdString());
+    }
 }
 
 void BBBFrame::OnClear(wxCommandEvent& event)

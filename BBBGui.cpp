@@ -34,7 +34,7 @@ BBBGui::BBBGui( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	edit = new wxMenu();
 	wxMenuItem* clear;
-	clear = new wxMenuItem( edit, ID_CLEAR, wxString( wxT("Clear") ) , wxEmptyString, wxITEM_NORMAL );
+	clear = new wxMenuItem( edit, ID_CLEAR, wxString( wxT("Clear") ) + wxT('\t') + wxT("Ctrl+C"), wxEmptyString, wxITEM_NORMAL );
 	edit->Append( clear );
 	
 	m_menubar1->Append( edit, wxT("Edit") ); 

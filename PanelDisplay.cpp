@@ -37,6 +37,7 @@ void PanelDisplay::Load(const std::string& filename)
 void PanelDisplay::Clear()
 {
     table.clear();
+    Refresh();
 }
 
 void PanelDisplay::OnDraw(wxDC& dc)
