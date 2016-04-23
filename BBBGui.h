@@ -33,10 +33,7 @@ class wxBitmapToggleButton;
 
 ///////////////////////////////////////////////////////////////////////////
 
-#define ID_LOAD 1000
-#define ID_SAVE 1001
-#define ID_EXIT 1002
-#define ID_CLEAR 1003
+#define ID_CLEAR 1000
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class BBBGui
@@ -73,8 +70,12 @@ class BBBGui : public wxFrame
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnLoad( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSave( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnExit( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnClear( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSetMode( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnLinesUpdate( wxSpinEvent& event ) { event.Skip(); }
+		virtual void OnStartingLinesUpdate( wxSpinEvent& event ) { event.Skip(); }
+		virtual void OnMovesUpdate( wxSpinEvent& event ) { event.Skip(); }
 		
 	
 	public:

@@ -23,6 +23,22 @@ PanelDisplay::~PanelDisplay()
 	Disconnect(wxEVT_RIGHT_DOWN, wxMouseEventHandler(PanelDisplay::OnPanel), NULL, this);
 }
 
+void PanelDisplay::Save(const std::string& filename)
+{
+    table.save(filename);
+}
+
+void PanelDisplay::Load(const std::string& filename)
+{
+    table.load(filename);
+    Refresh();
+}
+
+void PanelDisplay::Clear()
+{
+    table.clear();
+}
+
 void PanelDisplay::OnDraw(wxDC& dc)
 {
     for (int i = 0; i < table.height(); i++)

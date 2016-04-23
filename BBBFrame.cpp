@@ -1,6 +1,7 @@
 #include "BBBFrame.hpp"
 #include "PanelDisplay.hpp"
 #include <wx/tglbtn.h>
+#include <wx/filedlg.h>
 #include <cstdio>
 
 extern std::vector<wxBitmap> panelImages;
@@ -44,6 +45,35 @@ BBBFrame::~BBBFrame()
 	m_bpButton9->Disconnect(wxEVT_TOGGLEBUTTON, wxCommandEventHandler(BBBFrame::OnPanelChoose), NULL, this);
 }
 
+void BBBFrame::OnExit(wxCommandEvent& event)
+{
+    Destroy();
+}
+
+void BBBFrame::OnLoad(wxCommandEvent& event)
+{
+    wxFileDialog* dialog = new wxFileDialog(NULL, _("Load .bbb file"), wxEmptyString, wxEmptyString, _("BBB puzzle files (*.bbb)|*.bbb"), wxFD_OPEN|wxFD_FILE_MUST_EXIST|wxFD_CHANGE_DIR);
+    if (dialog->ShowModal() == wxID_OK)
+    {
+        panel_display->Load(dialog->GetPath().ToStdString());
+        moves->SetValue(panel_display->GetMoves());
+        startingLines->SetValue(panel_display->GetStartingLines());
+        lines->SetValue(panel_display->GetLines());
+    }
+}
+
+void BBBFrame::OnSave(wxCommandEvent& event)
+{
+    wxFileDialog* dialog = new wxFileDialog(NULL, _("Save .bbb file"), wxEmptyString, wxEmptyString, _("BBB puzzle files (*.bbb)|*.bbb"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT|wxFD_CHANGE_DIR);
+    if (dialog->ShowModal() == wxID_OK)
+        panel_display->Save(dialog->GetPath().ToStdString());
+}
+
+void BBBFrame::OnClear(wxCommandEvent& event)
+{
+    panel_display->Clear();
+}
+
 void BBBFrame::OnSetMode(wxCommandEvent& event)
 {
     if (event.GetSelection() == 0)
@@ -67,6 +97,16 @@ void BBBFrame::OnSetMode(wxCommandEvent& event)
 void BBBFrame::OnLinesUpdate(wxSpinEvent& event)
 {
     panel_display->SetLines(event.GetValue());
+}
+
+void BBBFrame::OnStartingLinesUpdate(wxSpinEvent& event)
+{
+    panel_display->SetStartingLines(event.GetValue());
+}
+
+void BBBFrame::OnMovesUpdate(wxSpinEvent& event)
+{
+    panel_display->SetMoves(event.GetValue());
 }
 
 void BBBFrame::OnPanelChoose(wxCommandEvent& event)

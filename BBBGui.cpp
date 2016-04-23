@@ -18,16 +18,16 @@ BBBGui::BBBGui( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	m_menubar1 = new wxMenuBar( 0 );
 	file = new wxMenu();
-	wxMenuItem* load;
-	load = new wxMenuItem( file, ID_LOAD, wxString( wxT("Load") ) + wxT('\t') + wxT("Ctrl+O"), wxEmptyString, wxITEM_NORMAL );
-	file->Append( load );
+	wxMenuItem* open;
+	open = new wxMenuItem( file, wxID_OPEN, wxString( wxT("Open") ) + wxT('\t') + wxT("Ctrl+O"), wxEmptyString, wxITEM_NORMAL );
+	file->Append( open );
 	
 	wxMenuItem* save;
-	save = new wxMenuItem( file, ID_SAVE, wxString( wxT("Save") ) + wxT('\t') + wxT("Ctrl+S"), wxEmptyString, wxITEM_NORMAL );
+	save = new wxMenuItem( file, wxID_SAVE, wxString( wxT("Save") ) + wxT('\t') + wxT("Ctrl+S"), wxEmptyString, wxITEM_NORMAL );
 	file->Append( save );
 	
 	wxMenuItem* exit;
-	exit = new wxMenuItem( file, ID_EXIT, wxString( wxT("Exit") ) + wxT('\t') + wxT("Alt+F4"), wxEmptyString, wxITEM_NORMAL );
+	exit = new wxMenuItem( file, wxID_EXIT, wxString( wxT("Exit") ) + wxT('\t') + wxT("Alt+F4"), wxEmptyString, wxITEM_NORMAL );
 	file->Append( exit );
 	
 	m_menubar1->Append( file, wxT("File") ); 
@@ -65,6 +65,8 @@ BBBGui::BBBGui( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	int modeNChoices = sizeof( modeChoices ) / sizeof( wxString );
 	mode = new wxChoice( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, modeNChoices, modeChoices, 0 );
 	mode->SetSelection( 0 );
+	mode->Enable( false );
+	
 	fgSizer1->Add( mode, 1, wxALL|wxEXPAND, 5 );
 	
 	linesText = new wxStaticText( m_panel1, wxID_ANY, wxT("Lines:"), wxDefaultPosition, wxDefaultSize, 0 );
@@ -168,18 +170,26 @@ BBBGui::BBBGui( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	this->Connect( load->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnLoad ) );
+	this->Connect( open->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnLoad ) );
 	this->Connect( save->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnSave ) );
+	this->Connect( exit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnExit ) );
+	this->Connect( clear->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnClear ) );
 	mode->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( BBBGui::OnSetMode ), NULL, this );
 	lines->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnLinesUpdate ), NULL, this );
+	startingLines->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnStartingLinesUpdate ), NULL, this );
+	moves->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnMovesUpdate ), NULL, this );
 }
 
 BBBGui::~BBBGui()
 {
 	// Disconnect Events
-	this->Disconnect( ID_LOAD, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnLoad ) );
-	this->Disconnect( ID_SAVE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnSave ) );
+	this->Disconnect( wxID_OPEN, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnLoad ) );
+	this->Disconnect( wxID_SAVE, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnSave ) );
+	this->Disconnect( wxID_EXIT, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnExit ) );
+	this->Disconnect( ID_CLEAR, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( BBBGui::OnClear ) );
 	mode->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( BBBGui::OnSetMode ), NULL, this );
 	lines->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnLinesUpdate ), NULL, this );
+	startingLines->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnStartingLinesUpdate ), NULL, this );
+	moves->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnMovesUpdate ), NULL, this );
 	
 }

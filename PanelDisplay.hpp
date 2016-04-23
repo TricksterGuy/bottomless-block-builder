@@ -17,8 +17,20 @@ public:
     void OnPanelMetadata(wxMouseEvent& event);
     void OnPanel(wxMouseEvent& event);
 
-    void SetLines(int lines);
     void SetCurrentPanel(Panel::Type p) {panel = p;}
+
+    void SetLines(int lines);
+    void SetStartingLines(int startingLines) {table.set_starting_lines(startingLines);}
+    void SetMoves(int moves) {table.set_moves(moves);}
+
+    int GetLines() const {return table.height();}
+    int GetStartingLines() const {return table.get_starting_lines();}
+    int GetMoves() const {return table.get_moves();}
+
+    void Save(const std::string& filename);
+    void Load(const std::string& filename);
+    void Clear();
+
 private:
     std::vector<wxBitmap> panels;
     PanelTable table;

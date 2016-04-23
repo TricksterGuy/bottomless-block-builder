@@ -4,7 +4,11 @@
 #include "panel.hpp"
 #include <list>
 #include <set>
+#include <string>
 #include <vector>
+
+#define VERSION_MAJOR 1
+#define VERSION_MINOR 0
 
 struct Point
 {
@@ -33,6 +37,11 @@ struct MatchInfo
 class PanelTable
 {
 public:
+    enum Type
+    {
+        PUZZLE = 0,
+        MISSION = 1,
+    };
     PanelTable(int rows, int columns);
     PanelTable(int rows, int columns, const Panel::Type* data);
 
@@ -48,11 +57,23 @@ public:
     bool normal(int i, int j) const {return get(i, j).normal();}
 
     void lengthen(int lines);
+    void save(const std::string& filename);
+    void load(const std::string& filename);
+    void clear();
+
+    void set_starting_lines(int starting) {starting_lines = starting;}
+    void set_moves(int m) {moves = m;}
+    int get_starting_lines() const {return starting_lines;}
+    int get_moves() const {return moves;}
 
 private:
     std::vector<Panel> panels;
+    char type;
     int rows;
     int columns;
+    int starting_lines;
+    int moves;
+
 };
 
 #endif
