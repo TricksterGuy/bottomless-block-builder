@@ -6,7 +6,7 @@ std::string Solution::str() const
 {
     std::stringstream oss;
     for (const auto& move : moves)
-        oss << "(" << move.x << "," << move.y << ")\n";
+        oss << "(" << move.y << "," << move.x << ")\n";
     return oss.str();
 }
 
