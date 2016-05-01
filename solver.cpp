@@ -335,9 +335,35 @@ PuzzleState PuzzleState::move(int i, int j) const
   end
 */
 
-std::vector<Solution> solve_puzzle(const PanelTable& table, int max_moves)
+void solve_puzzle(const PanelTable& table, std::vector<Solution>& out)
 {
+    std::priority_queue<PuzzleState> queue;
+    queue.push(PuzzleState(table));
 
+    while (!queue.empty())
+    {
+        PuzzleState state = queue.top();
+        if (state.is_empty())
+        {
+            out.emplace_back(state.moves);
+            queue.pop();
+            continue;
+        }
+        if (state.is_impossible() || state.moves_left == 0)
+        {
+            queue.pop();
+            continue;
+        }
+        for (int i = 10; i >= 0; i--)
+        {
+            for (int j = 0; j < 5; j++)
+            {
+                if (state.swap_viable(i, j))
+                    queue.push(state.move(i, j));
+            }
+        }
+        queue.pop();
+    }
 }
 
 bool solve_puzzle(const PanelTable& table, Solution& out)
@@ -363,9 +389,7 @@ bool solve_puzzle(const PanelTable& table, Solution& out)
             for (int j = 0; j < 5; j++)
             {
                 if (state.swap_viable(i, j))
-                {
                     queue.push(state.move(i, j));
-                }
             }
         }
         queue.pop();

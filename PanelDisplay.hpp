@@ -32,6 +32,7 @@ public:
     void Clear();
 
     bool IsSolvable(Solution& s);
+    void AllSolutions(std::vector<Solution>& solutions);
 
 private:
     std::vector<wxBitmap> panels;

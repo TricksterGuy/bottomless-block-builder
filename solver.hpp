@@ -17,6 +17,8 @@ struct Move
 
 struct Solution
 {
+    Solution() {}
+    Solution(const std::list<Move>& m) : moves(m) {}
     std::string str() const;
     std::list<Move> moves;
 };
@@ -69,7 +71,7 @@ struct PuzzleState
 
 };
 
-std::vector<Solution> solve_puzzle(const PanelTable& table, int max_moves);
+void solve_puzzle(const PanelTable& table, std::vector<Solution>& out);
 bool solve_puzzle(const PanelTable& table, Solution& out);
 
 #endif

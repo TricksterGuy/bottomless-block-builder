@@ -1,6 +1,7 @@
 #ifndef BBBFRAME_HPP
 #define BBBFRAME_HPP
 
+#include <vector>
 #include "BBBGui.h"
 #include "solver.hpp"
 
@@ -25,4 +26,15 @@ public:
 	void AllSolutions(wxCommandEvent& event);
 };
 
+
+class SolutionsDialog : public SolutionsGUI
+{
+	public:
+		SolutionsDialog(std::vector<Solution>& s);
+		~SolutionsDialog() {}
+		void OnUpdateSolution(wxCommandEvent& event);
+		void DoUpdateSolution(int index);
+    private:
+        std::vector<Solution>& solutions;
+};
 #endif

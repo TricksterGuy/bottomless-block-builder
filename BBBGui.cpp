@@ -209,3 +209,46 @@ BBBGui::~BBBGui()
 	m_button2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( BBBGui::AllSolutions ), NULL, this );
 	
 }
+
+SolutionsGUI::SolutionsGUI( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer7;
+	bSizer7 = new wxBoxSizer( wxVERTICAL );
+	
+	m_panel4 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer8;
+	bSizer8 = new wxBoxSizer( wxVERTICAL );
+	
+	wxArrayString solution_choiceChoices;
+	solution_choice = new wxChoice( m_panel4, wxID_ANY, wxDefaultPosition, wxDefaultSize, solution_choiceChoices, 0 );
+	solution_choice->SetSelection( 0 );
+	bSizer8->Add( solution_choice, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	solution_text = new wxStaticText( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	solution_text->Wrap( -1 );
+	bSizer8->Add( solution_text, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5 );
+	
+	
+	m_panel4->SetSizer( bSizer8 );
+	m_panel4->Layout();
+	bSizer8->Fit( m_panel4 );
+	bSizer7->Add( m_panel4, 1, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizer7 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	solution_choice->Connect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SolutionsGUI::OnUpdateSolution ), NULL, this );
+}
+
+SolutionsGUI::~SolutionsGUI()
+{
+	// Disconnect Events
+	solution_choice->Disconnect( wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler( SolutionsGUI::OnUpdateSolution ), NULL, this );
+	
+}

@@ -85,4 +85,7 @@ bool PanelDisplay::IsSolvable(Solution& s)
     return solve_puzzle(table, s);
 }
 
-
+void PanelDisplay::AllSolutions(std::vector<Solution>& solutions)
+{
+    solve_puzzle(table, solutions);
+}

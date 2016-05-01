@@ -164,8 +164,38 @@ void BBBFrame::IsSolvable(wxCommandEvent& event)
     else
         text = "Puzzle is not solvable";
     wxMessageBox(text, "Status");
+
 }
 
 void BBBFrame::AllSolutions(wxCommandEvent& event)
 {
+    std::vector<Solution> solutions;
+    panel_display->AllSolutions(solutions);
+    if (solutions.empty())
+    {
+        wxMessageBox("Puzzle is not solvable", "Status");
+        return;
+    }
+
+    SolutionsDialog* dialog = new SolutionsDialog(solutions);
+    dialog->ShowModal();
+    delete dialog;
+}
+
+SolutionsDialog::SolutionsDialog(std::vector<Solution>& s) : SolutionsGUI(NULL), solutions(s)
+{
+    for (unsigned int i = 0; i < solutions.size(); i++)
+        solution_choice->Append(wxString::Format("Solution %d", i + 1));
+    DoUpdateSolution(0);
+}
+
+void SolutionsDialog::OnUpdateSolution(wxCommandEvent& event)
+{
+    DoUpdateSolution(event.GetSelection());
+}
+
+void SolutionsDialog::DoUpdateSolution(int index)
+{
+    const Solution& solution = solutions[index];
+    solution_text->SetLabel(solution.str());
 }

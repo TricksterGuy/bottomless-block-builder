@@ -30,6 +30,7 @@ class wxBitmapToggleButton;
 #include <wx/bmpbuttn.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
+#include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -87,6 +88,29 @@ class BBBGui : public wxFrame
 		BBBGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Bottomless Block Builder"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 480,420 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~BBBGui();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class SolutionsGUI
+///////////////////////////////////////////////////////////////////////////////
+class SolutionsGUI : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxPanel* m_panel4;
+		wxChoice* solution_choice;
+		wxStaticText* solution_text;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnUpdateSolution( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		SolutionsGUI( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Solutions"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 160,240 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~SolutionsGUI();
 	
 };
 
