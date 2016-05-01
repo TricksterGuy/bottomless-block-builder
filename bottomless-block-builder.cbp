@@ -50,6 +50,8 @@
 		<Unit filename="panel.hpp" />
 		<Unit filename="panel_table.cpp" />
 		<Unit filename="panel_table.hpp" />
+		<Unit filename="solver.cpp" />
+		<Unit filename="solver.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

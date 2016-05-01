@@ -1,5 +1,6 @@
 #include "PanelDisplay.hpp"
 #include <cstdio>
+#include "solver.hpp"
 
 extern std::vector<wxBitmap> panelImages;
 
@@ -78,3 +79,10 @@ void PanelDisplay::SetLines(int lines)
     SetVirtualSize(16 * table.width(), 16 * table.height());
     Refresh();
 }
+
+bool PanelDisplay::IsSolvable(Solution& s)
+{
+    return solve_puzzle(table, s);
+}
+
+

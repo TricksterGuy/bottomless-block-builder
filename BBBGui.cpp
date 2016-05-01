@@ -52,7 +52,7 @@ BBBGui::BBBGui( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	bSizer3 = new wxBoxSizer( wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer1;
-	fgSizer1 = new wxFlexGridSizer( 4, 2, 0, 0 );
+	fgSizer1 = new wxFlexGridSizer( 6, 2, 0, 0 );
 	fgSizer1->AddGrowableCol( 1 );
 	fgSizer1->SetFlexibleDirection( wxHORIZONTAL );
 	fgSizer1->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
@@ -100,6 +100,18 @@ BBBGui::BBBGui( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	
 	bSizer3->Add( fgSizer1, 0, 0, 5 );
+	
+	wxBoxSizer* bSizer6;
+	bSizer6 = new wxBoxSizer( wxVERTICAL );
+	
+	m_button1 = new wxButton( m_panel1, wxID_ANY, wxT("Solvable?"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer6->Add( m_button1, 0, wxALL|wxEXPAND, 5 );
+	
+	m_button2 = new wxButton( m_panel1, wxID_ANY, wxT("All Solutions..."), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer6->Add( m_button2, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	bSizer3->Add( bSizer6, 1, wxEXPAND, 5 );
 	
 	wxGridSizer* gSizer2;
 	gSizer2 = new wxGridSizer( 5, 2, 0, 0 );
@@ -178,6 +190,8 @@ BBBGui::BBBGui( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	lines->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnLinesUpdate ), NULL, this );
 	startingLines->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnStartingLinesUpdate ), NULL, this );
 	moves->Connect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnMovesUpdate ), NULL, this );
+	m_button1->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( BBBGui::IsSolvable ), NULL, this );
+	m_button2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( BBBGui::AllSolutions ), NULL, this );
 }
 
 BBBGui::~BBBGui()
@@ -191,5 +205,7 @@ BBBGui::~BBBGui()
 	lines->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnLinesUpdate ), NULL, this );
 	startingLines->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnStartingLinesUpdate ), NULL, this );
 	moves->Disconnect( wxEVT_COMMAND_SPINCTRL_UPDATED, wxSpinEventHandler( BBBGui::OnMovesUpdate ), NULL, this );
+	m_button1->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( BBBGui::IsSolvable ), NULL, this );
+	m_button2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( BBBGui::AllSolutions ), NULL, this );
 	
 }

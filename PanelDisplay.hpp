@@ -3,7 +3,7 @@
 
 #include <wx/scrolwin.h>
 #include <wx/dc.h>
-#include "panel_table.hpp"
+#include "solver.hpp"
 #include <vector>
 
 class PanelDisplay : public wxScrolledCanvas
@@ -30,6 +30,8 @@ public:
     void Save(const std::string& filename);
     void Load(const std::string& filename);
     void Clear();
+
+    bool IsSolvable(Solution& s);
 
 private:
     std::vector<wxBitmap> panels;

@@ -2,6 +2,7 @@
 #define BBBFRAME_HPP
 
 #include "BBBGui.h"
+#include "solver.hpp"
 
 class BBBFrame : public BBBGui
 {
@@ -19,6 +20,9 @@ public:
 	void OnMovesUpdate(wxSpinEvent& event);
 
     void OnPanelChoose(wxCommandEvent& event);
+
+    void IsSolvable(wxCommandEvent& event);
+	void AllSolutions(wxCommandEvent& event);
 };
 
 #endif

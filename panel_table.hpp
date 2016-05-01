@@ -2,13 +2,17 @@
 #define PANEL_TABLE_HPP
 
 #include "panel.hpp"
-#include <list>
-#include <set>
-#include <string>
+#include <fstream>
 #include <vector>
 
 #define VERSION_MAJOR 1
 #define VERSION_MINOR 0
+
+#define MAX_PUZZLE_ROWS 11
+#define MAX_PUZZLE_COLUMNS 6
+#define MAX_PUZZLE_MOVES 1000000
+
+class PuzzlePanelTable;
 
 struct Point
 {
@@ -22,7 +26,7 @@ struct Point
 struct MatchInfo
 {
     MatchInfo() : chain(0), cascade(0), combo(0), swap_match(false), fall_match(false) {}
-    /** Chains are rapidlying matching 3 or more blocks before they disappear */
+    /** Chains are rapidly matching 3 or more blocks before they disappear */
     int chain;
     /** Cascades are sequential matches after blocks are removed */
     int cascade;
@@ -43,7 +47,6 @@ public:
         MISSION = 1,
     };
     PanelTable(int rows, int columns);
-    PanelTable(int rows, int columns, const Panel::Type* data);
 
     int width() const {return columns;}
     int height() const {return rows;}
@@ -66,14 +69,17 @@ public:
     int get_starting_lines() const {return starting_lines;}
     int get_moves() const {return moves;}
 
+    friend class PuzzlePanelTable;
 private:
+    void load_puzzle(std::ifstream& file);
+    void save_puzzle(std::ofstream& file);
+
     std::vector<Panel> panels;
     char type;
     int rows;
     int columns;
     int starting_lines;
     int moves;
-
 };
 
 #endif

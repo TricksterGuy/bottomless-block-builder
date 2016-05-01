@@ -26,8 +26,8 @@ class wxBitmapToggleButton;
 #include <wx/choice.h>
 #include <wx/spinctrl.h>
 #include <wx/sizer.h>
-#include <wx/bmpbuttn.h>
 #include <wx/button.h>
+#include <wx/bmpbuttn.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
 
@@ -55,6 +55,8 @@ class BBBGui : public wxFrame
 		wxSpinCtrl* startingLines;
 		wxStaticText* m_staticText3;
 		wxSpinCtrl* moves;
+		wxButton* m_button1;
+		wxButton* m_button2;
 		wxBitmapToggleButton* m_bpButton1;
 		wxBitmapToggleButton* m_bpButton2;
 		wxBitmapToggleButton* m_bpButton3;
@@ -76,11 +78,13 @@ class BBBGui : public wxFrame
 		virtual void OnLinesUpdate( wxSpinEvent& event ) { event.Skip(); }
 		virtual void OnStartingLinesUpdate( wxSpinEvent& event ) { event.Skip(); }
 		virtual void OnMovesUpdate( wxSpinEvent& event ) { event.Skip(); }
+		virtual void IsSolvable( wxCommandEvent& event ) { event.Skip(); }
+		virtual void AllSolutions( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		BBBGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Bottomless Block Builder"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 480,388 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		BBBGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Bottomless Block Builder"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 480,420 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 		
 		~BBBGui();
 	

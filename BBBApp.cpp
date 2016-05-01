@@ -7,6 +7,7 @@ IMPLEMENT_APP(BBBApp)
 
 std::vector<wxBitmap> panelImages;
 
+
  /** OnInit
   *
   * Initializes the program

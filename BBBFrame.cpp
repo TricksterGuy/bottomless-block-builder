@@ -2,7 +2,9 @@
 #include "PanelDisplay.hpp"
 #include <wx/tglbtn.h>
 #include <wx/filedlg.h>
+#include <wx/msgdlg.h>
 #include <cstdio>
+
 
 extern std::vector<wxBitmap> panelImages;
 
@@ -150,4 +152,20 @@ void BBBFrame::OnPanelChoose(wxCommandEvent& event)
         panel = 0;
 
     panel_display->SetCurrentPanel((Panel::Type)panel);
+}
+
+void BBBFrame::IsSolvable(wxCommandEvent& event)
+{
+    Solution s;
+    bool solvable = panel_display->IsSolvable(s);
+    wxString text;
+    if (solvable)
+        text = wxString::Format("Puzzle is solvable\nMoves:\n%s", s.str());
+    else
+        text = "Puzzle is not solvable";
+    wxMessageBox(text, "Status");
+}
+
+void BBBFrame::AllSolutions(wxCommandEvent& event)
+{
 }
