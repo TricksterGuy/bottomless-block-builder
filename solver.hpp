@@ -39,6 +39,7 @@ public:
     bool is_impossible() const;
     bool is_empty() const;
 
+    std::string str() const;
     friend class PuzzleState;
 private:
     std::vector<Panel::Type> panels;

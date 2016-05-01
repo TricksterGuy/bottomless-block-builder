@@ -46,49 +46,58 @@ bool PuzzlePanelTable::is_empty() const
 
 void PuzzlePanelTable::update_matches(void)
 {
-    MatchInfo match_info;
     std::set<Point> remove;
-
-    for (int i = 0; i < height; i++)
+    do
     {
-        for (int j = 0; j < width; j++)
+
+        remove.clear();
+        for (int i = 0; i < height; i++)
         {
-            if (horizontal(i, j))
+            for (int j = 0; j < width; j++)
             {
-                std::set<Point> horiz = check_horizontal_combo(i, j);
-                remove.insert(horiz.begin(), horiz.end());
-            }
-            if (vertical(i, j))
-            {
-                std::set<Point> vert = check_vertical_combo(i, j);
-                remove.insert(vert.begin(), vert.end());
+                if (horizontal(i, j))
+                {
+                    std::set<Point> horiz = check_horizontal_combo(i, j);
+                    remove.insert(horiz.begin(), horiz.end());
+                }
+                if (vertical(i, j))
+                {
+                    std::set<Point> vert = check_vertical_combo(i, j);
+                    remove.insert(vert.begin(), vert.end());
+                }
             }
         }
-    }
 
-    for (const auto& pt : remove)
-    {
-        numbers[value(pt.y, pt.x)] -= 1;
-        set(pt.y, pt.x, Panel::Type::EMPTY);
-    }
-
-    if (!remove.empty())
-    {
-        for (int j = 0; j < width; j++)
+        for (const auto& pt : remove)
         {
-            std::list<Panel::Type> temp;
-            for (int i = height - 1; i >= 0; i--)
-            {
-                Panel::Type panel = value(i, j);
-                if (panel != Panel::Type::EMPTY)
-                    temp.push_back(panel);
-            }
-
-            int i = height - 1;
-            for (const auto& panel : temp)
-                set(i, j, panel);
+            numbers[value(pt.y, pt.x)] -= 1;
+            set(pt.y, pt.x, Panel::Type::EMPTY);
         }
-    }
+
+        if (!remove.empty())
+        {
+            for (int j = 0; j < width; j++)
+            {
+                std::list<Panel::Type> temp;
+                for (int i = height - 1; i >= 0; i--)
+                {
+                    Panel::Type panel = value(i, j);
+                    if (panel != Panel::Type::EMPTY)
+                    {
+                        temp.push_back(panel);
+                        set(i, j, Panel::Type::EMPTY);
+                    }
+                }
+
+                int i = height - 1;
+                for (const auto& panel : temp)
+                {
+                    set(i, j, panel);
+                    i--;
+                }
+            }
+        }
+    } while (!remove.empty());
 }
 
 void PuzzlePanelTable::swap(int i, int j)
@@ -106,12 +115,18 @@ void PuzzlePanelTable::swap(int i, int j)
             {
                 Panel::Type panel = value(i, j);
                 if (panel != Panel::Type::EMPTY)
+                {
                     temp.push_back(panel);
+                    set(i, j, Panel::Type::EMPTY);
+                }
             }
 
             int i = height - 1;
             for (const auto& panel : temp)
+            {
                 set(i, j, panel);
+                i--;
+            }
         }
     }
 }
@@ -223,12 +238,27 @@ std::set<Point> PuzzlePanelTable::check_vertical_combo(int i, int j)
     return remove;
 }
 
+std::string PuzzlePanelTable::str() const
+{
+    std::stringstream oss;
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            oss << value(i, j) << " ";
+        }
+        oss << "\n";
+    }
+    oss << "\n";
+    return oss.str();
+}
+
 PuzzleState::PuzzleState(const PanelTable& ptable) : table(ptable), moves_left(ptable.get_moves())
 {
 
 }
 
-PuzzleState::PuzzleState(const PuzzleState& other, int mi, int mj, int max_moves) : table(other.table), moves_left(max_moves)
+PuzzleState::PuzzleState(const PuzzleState& other, int mi, int mj, int max_moves) : table(other.table), moves(other.moves), moves_left(max_moves)
 {
     table.swap(mi, mj);
     table.update_matches();
