@@ -96,6 +96,24 @@ void PuzzlePanelTable::swap(int i, int j)
     Panel::Type temp = panels[i * width + j];
     panels[i * width + j] = panels[i * width + j + 1];
     panels[i * width + j + 1] = temp;
+
+    if (empty(i, j) || empty(i, j + 1))
+    {
+        for (int j = 0; j < width; j++)
+        {
+            std::list<Panel::Type> temp;
+            for (int i = height - 1; i >= 0; i--)
+            {
+                Panel::Type panel = value(i, j);
+                if (panel != Panel::Type::EMPTY)
+                    temp.push_back(panel);
+            }
+
+            int i = height - 1;
+            for (const auto& panel : temp)
+                set(i, j, panel);
+        }
+    }
 }
 
 bool PuzzlePanelTable::vertical(int i, int j)
