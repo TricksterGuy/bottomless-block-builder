@@ -1,5 +1,6 @@
 #include "BBBApp.hpp"
 #include "BBBFrame.hpp"
+#include "panels_gfx.xpm"
 #include <wx/bitmap.h>
 #include <vector>
 
@@ -18,11 +19,12 @@ bool BBBApp::OnInit()
 
     if (!wxApp::OnInit())
         return false;
+    wxInitAllImageHandlers();
 
     SetVendorName("Bottomless Block Builder");
     SetAppName("Bottomless Block Builder");
 
-    wxBitmap bitmap("panels_gfx.png");
+    wxBitmap bitmap(panels_gfx_xpm);
     panelImages.push_back(bitmap.GetSubBitmap(wxRect(112, 16, 16, 16)));
     panelImages.push_back(bitmap.GetSubBitmap(wxRect(0, 0, 16, 16)));
     panelImages.push_back(bitmap.GetSubBitmap(wxRect(16, 0, 16, 16)));
