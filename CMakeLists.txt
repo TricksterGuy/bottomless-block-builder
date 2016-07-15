@@ -53,9 +53,9 @@ set(SRC_BBB
     BBBFrame.cpp
     BBBGui.cpp
     PanelDisplay.cpp
-    panel.cpp
     panel_table.cpp
     solver.cpp
+    logger.cpp
 )
 
 add_executable(

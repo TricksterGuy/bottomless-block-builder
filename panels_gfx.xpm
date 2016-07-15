@@ -1,5 +1,5 @@
 /* XPM */
-static char * panels_gfx_xpm[] = {
+static const char * panels_gfx_xpm[] = {
 "128 128 197 2",
 "  	c None",
 ". 	c #006800",

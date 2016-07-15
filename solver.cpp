@@ -285,56 +285,6 @@ PuzzleState PuzzleState::move(int i, int j) const
     return PuzzleState(*this, i, j, moves_left - 1);
 }
 
-/*  def evaluate_board
-    queue = []
-
-    queue << @table.data
-    queue << @table.numbers
-    queue << []
-    size = 1
-
-    @moves.times do |k|
-      size.times do
-        data = queue.shift
-        numbers = queue.shift
-        made = queue.shift
-        11.downto(@top) do |i|
-          5.times do |j|
-            unless (data[i][j] != nil or data[i][j + 1] != nil) and data[i][j] != data[i][j + 1]
-              next
-            end
-
-            @table.data = data.dclone
-            @table.numbers = numbers.dup
-
-            move = Move.new([i, j], [@table[i, j], @table[i, j + 1]])
-            @table.switch(i, j)
-            @table.stack_down(i, j)
-            @table.stack_down(i, j + 1)
-            @table.update_matches
-            #trim time
-
-            if trim(made, move)
-              move_made = made + [move]
-              if @table.empty?
-                @solutions << Solution.new(move_made)
-              elsif !@table.impossible?
-                queue << @table.data
-                queue << @table.numbers
-                queue << move_made
-              end
-              if @number != nil and @solutions.size >= @number
-                return
-              end
-            end
-          end
-        end
-      end
-      size = queue.size / 3
-    end
-  end
-*/
-
 void solve_puzzle(const PanelTable& table, std::vector<Solution>& out)
 {
     std::priority_queue<PuzzleState> queue;
@@ -354,7 +304,7 @@ void solve_puzzle(const PanelTable& table, std::vector<Solution>& out)
             queue.pop();
             continue;
         }
-        for (int i = 10; i >= 0; i--)
+        for (int i = 11; i >= 0; i--)
         {
             for (int j = 0; j < 5; j++)
             {
@@ -384,7 +334,7 @@ bool solve_puzzle(const PanelTable& table, Solution& out)
             queue.pop();
             continue;
         }
-        for (int i = 10; i >= 0; i--)
+        for (int i = 11; i >= 0; i--)
         {
             for (int j = 0; j < 5; j++)
             {

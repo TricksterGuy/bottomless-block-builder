@@ -1,14 +1,13 @@
 #ifndef PANEL_TABLE_HPP
 #define PANEL_TABLE_HPP
 
-#include "panel.hpp"
 #include <fstream>
 #include <vector>
 
 #define VERSION_MAJOR 1
-#define VERSION_MINOR 0
+#define VERSION_MINOR 1
 
-#define MAX_PUZZLE_ROWS 11
+#define MAX_PUZZLE_ROWS 12
 #define MAX_PUZZLE_COLUMNS 6
 #define MAX_PUZZLE_MOVES 1000000
 
@@ -36,6 +35,32 @@ struct MatchInfo
     bool swap_match;
     /** If any panels was in state END_FALL this will be true (part of a cascade) */
     bool fall_match;
+};
+
+struct BasicPuzzle;
+
+class Panel
+{
+public:
+    enum Type
+    {
+        EMPTY = 0,
+        GREEN = 1,
+        PURPLE = 2,
+        RED = 3,
+        YELLOW = 4,
+        CYAN = 5,
+        BLUE = 6,
+        SILVER = 7,
+        SPECIAL = 8,
+    };
+
+    bool empty() const {return value == EMPTY;}
+    bool normal() const {return !empty() && !special();}
+    bool special() const {return value == SPECIAL;}
+
+    Type value = EMPTY;
+    unsigned int modifiers = 0;
 };
 
 class PanelTable
@@ -70,6 +95,7 @@ public:
     int get_moves() const {return moves;}
 
     friend class PuzzlePanelTable;
+    friend void load_version_1_0(const BasicPuzzle& puzzle, PanelTable& table);
 private:
     void load_puzzle(std::ifstream& file);
     void save_puzzle(std::ofstream& file);
