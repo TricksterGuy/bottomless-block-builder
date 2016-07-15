@@ -6,8 +6,6 @@
 #include <fstream>
 #include "logger.hpp"
 
-
-
 struct BasicPuzzle
 {
     char magic[4];
@@ -46,18 +44,20 @@ void PanelTable::lengthen(int lines)
     panels.resize(lines * columns);
 }
 
-void PanelTable::save(const std::string& filename)
+bool PanelTable::save(const std::string& filename)
 {
     std::ofstream file(filename.c_str(), std::ios::binary);
     if (!file.good())
     {
         ErrorLog("Could not open file %s", filename.c_str());
-        return;
+        return false;
     }
-    save_puzzle(file);
+    bool ret = save_puzzle(file);
+    file.close();
+    return ret;
 }
 
-void PanelTable::save_puzzle(std::ofstream& file)
+bool PanelTable::save_puzzle(std::ofstream& file)
 {
     BasicPuzzle puzzle;
     puzzle.magic[0] = puzzle.magic[1] = puzzle.magic[2] = 'B';
@@ -74,21 +74,22 @@ void PanelTable::save_puzzle(std::ofstream& file)
         puzzle.panels[i] = panels[i].value;
 
     file.write(reinterpret_cast<char*>(&puzzle), sizeof(BasicPuzzle));
-    file.close();
+
+    return file.good();
 }
 
-void PanelTable::load(const std::string& filename)
+bool PanelTable::load(const std::string& filename)
 {
     std::ifstream file(filename.c_str(), std::ios::binary);
     if (!file.good())
     {
         ErrorLog("Could not open file %s", filename.c_str());
-        return;
+        return false;
     }
-    load_puzzle(file);
+    return load_puzzle(file);
 }
 
-void PanelTable::load_puzzle(std::ifstream& file)
+bool PanelTable::load_puzzle(std::ifstream& file)
 {
     BasicPuzzle puzzle;
     file.read(reinterpret_cast<char*>(&puzzle), sizeof(puzzle));
@@ -98,14 +99,14 @@ void PanelTable::load_puzzle(std::ifstream& file)
     if (!(magic[0] == 'B' && magic[1] == 'B' && magic[2] == 'B' && magic[3] == 0))
     {
         ErrorLog("Invalid File");
-        return;
+        return false;
     }
 
     char* version = puzzle.version;
     if (version[0] > VERSION_MAJOR || (version[0] == VERSION_MAJOR && version[1] > VERSION_MINOR))
     {
         ErrorLog("Version %d.%d is not supported", version[0], version[1]);
-        return;
+        return false;
     }
 
     InfoLog("Version %d.%d found", version[0], version[1]);
@@ -113,7 +114,7 @@ void PanelTable::load_puzzle(std::ifstream& file)
     if (puzzle.type != PUZZLE)
     {
         ErrorLog("Invalid File");
-        return;
+        return false;
     }
 
     if (puzzle.rows > MAX_PUZZLE_ROWS || puzzle.columns > MAX_PUZZLE_COLUMNS || puzzle.starting > MAX_PUZZLE_ROWS ||
@@ -121,14 +122,14 @@ void PanelTable::load_puzzle(std::ifstream& file)
     {
         ErrorLog("Puzzle too big can only be (%d %d) moves: %d found (%d(%d) %d %d)", MAX_PUZZLE_ROWS, MAX_PUZZLE_COLUMNS, MAX_PUZZLE_MOVES,
                  puzzle.rows, puzzle.starting, puzzle.columns, puzzle.moves);
-        return;
+        return false;
     }
 
     if (version[0] == 1 && version[1] == 0)
     {
         InfoLog("Found version 1.0 file");
         load_version_1_0(puzzle, *this);
-        return;
+        return true;
     }
 
     type = puzzle.type;
@@ -140,6 +141,7 @@ void PanelTable::load_puzzle(std::ifstream& file)
     panels.resize(columns * rows);
     for (unsigned int i = 0; i < panels.size(); i++)
         panels[i].value = (Panel::Type) puzzle.panels[i];
+    return true;
 }
 
 void PanelTable::clear()

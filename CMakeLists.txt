@@ -58,9 +58,20 @@ set(SRC_BBB
     logger.cpp
 )
 
+set(SRC_BBBUPDATER
+    BBBUpdater.cpp
+    logger.cpp
+    panel_table.cpp
+)
+
 add_executable(
     bottomless-block-builder
     ${SRC_BBB}
+)
+
+add_executable(
+    bbb_updater
+    ${SRC_BBBUPDATER}
 )
 
 target_link_libraries(
@@ -68,4 +79,10 @@ target_link_libraries(
     ${wxWidgets_LIBRARIES}
 )
 
+
+target_link_libraries(
+    bbb_updater
+)
+
 install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/bottomless-block-builder DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/bbb_updater DESTINATION ${CMAKE_INSTALL_BINDIR})

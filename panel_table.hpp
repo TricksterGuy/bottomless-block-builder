@@ -85,8 +85,8 @@ public:
     bool normal(int i, int j) const {return get(i, j).normal();}
 
     void lengthen(int lines);
-    void save(const std::string& filename);
-    void load(const std::string& filename);
+    bool save(const std::string& filename);
+    bool load(const std::string& filename);
     void clear();
 
     void set_starting_lines(int starting) {starting_lines = starting;}
@@ -97,8 +97,8 @@ public:
     friend class PuzzlePanelTable;
     friend void load_version_1_0(const BasicPuzzle& puzzle, PanelTable& table);
 private:
-    void load_puzzle(std::ifstream& file);
-    void save_puzzle(std::ofstream& file);
+    bool load_puzzle(std::ifstream& file);
+    bool save_puzzle(std::ofstream& file);
 
     std::vector<Panel> panels;
     char type;
