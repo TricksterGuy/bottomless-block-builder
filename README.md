@@ -3,7 +3,7 @@ Level editor for bottomless-block-barrage
 
 ![Puzzle Editor](screenshots/puzzle.png)
 
-# Installation from Source manually on Linux
+# Installation from Source manually on Linux (Debian based distros)
 From the root directory of where you have the source code.
  1. Ensure you have a C++ compiler (sudo apt-get install build-essential)
  2. Ensure you have CMake installed (sudo apt-get install cmake)
