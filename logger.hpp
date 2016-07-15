@@ -6,6 +6,10 @@
 #include <memory>
 #include <chrono>
 
+#ifdef _WIN32
+#undef ERROR
+#endif
+
 enum class LogLevel
 {
     FATAL = 0,   // printed and stops program
