@@ -127,7 +127,7 @@ bool PanelTable::load_puzzle(std::ifstream& file)
 
     if (version[0] == 1 && version[1] == 0)
     {
-        InfoLog("Found version 1.0 file");
+        InfoLog("Found version 1.0 file, converting to 1.1 format");
         load_version_1_0(puzzle, *this);
         return true;
     }
