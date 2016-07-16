@@ -56,6 +56,7 @@ set(SRC_BBB
     panel_table.cpp
     solver.cpp
     logger.cpp
+    wxlogger.cpp
 )
 
 set(SRC_BBBUPDATER

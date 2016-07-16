@@ -4,6 +4,8 @@
 #include <wx/bitmap.h>
 #include <vector>
 
+#include "wxlogger.hpp"
+
 IMPLEMENT_APP(BBBApp)
 
 std::vector<wxBitmap> panelImages;
@@ -16,9 +18,12 @@ std::vector<wxBitmap> panelImages;
 bool BBBApp::OnInit()
 {
     srand(time(NULL));
+    logger.reset(new LoggerWx());
 
     if (!wxApp::OnInit())
         return false;
+
+    wxHandleFatalExceptions();
     wxInitAllImageHandlers();
 
     SetVendorName("Bottomless Block Builder");
@@ -41,3 +46,29 @@ bool BBBApp::OnInit()
     return true;
 }
 
+bool BBBApp::OnExceptionInMainLoop()
+{
+    wxString error;
+    try {
+        throw; // Rethrow the current exception.
+    } catch (const std::exception& e) {
+        error = e.what();
+    } catch (const char* e) {
+        error = e;
+    } catch ( ... ) {
+        error = "unknown error.";
+    }
+    FatalLog("Unexpected exception has occurred: %s, the program will terminate.", error.c_str().AsChar());
+    // Exit the main loop and thus terminate the program.
+    return false;
+}
+
+void BBBApp::OnFatalException()
+{
+    FatalLog("Unexpected exception has occurred: the program will terminate.");
+}
+
+void BBBApp::OnUnhandledException()
+{
+    FatalLog("Unexpected exception has occurred: the program will terminate.");
+}

@@ -7,6 +7,9 @@ class BBBApp : public wxApp
 {
     public:
         virtual bool OnInit();
+        virtual bool OnExceptionInMainLoop();
+        virtual void OnFatalException();
+        virtual void OnUnhandledException();
 };
 
 #endif
