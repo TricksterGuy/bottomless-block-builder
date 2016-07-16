@@ -47,6 +47,7 @@ void PanelTable::lengthen(int lines)
 bool PanelTable::save(const std::string& filename)
 {
     std::ofstream file(filename.c_str(), std::ios::binary);
+    file.exceptions(std::ofstream::failbit | std::ofstream::badbit);
     if (!file.good())
     {
         ErrorLog("Could not open file %s", filename.c_str());
@@ -81,6 +82,7 @@ bool PanelTable::save_puzzle(std::ofstream& file)
 bool PanelTable::load(const std::string& filename)
 {
     std::ifstream file(filename.c_str(), std::ios::binary);
+    file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     if (!file.good())
     {
         ErrorLog("Could not open file %s", filename.c_str());

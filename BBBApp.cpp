@@ -22,8 +22,9 @@ bool BBBApp::OnInit()
 
     if (!wxApp::OnInit())
         return false;
-
+#ifndef __WIN32
     wxHandleFatalExceptions();
+#endif
     wxInitAllImageHandlers();
 
     SetVendorName("Bottomless Block Builder");
@@ -58,17 +59,16 @@ bool BBBApp::OnExceptionInMainLoop()
     } catch ( ... ) {
         error = "unknown error.";
     }
-    FatalLog("Unexpected exception has occurred: %s, the program will terminate.", error.c_str().AsChar());
-    // Exit the main loop and thus terminate the program.
+    ErrorLog("Unexpected exception has occurred: %s, the program will terminate.", error.c_str().AsChar());
     return false;
 }
 
 void BBBApp::OnFatalException()
 {
-    FatalLog("Unexpected exception has occurred: the program will terminate.");
+    ErrorLog("Unexpected exception has occurred: the program will terminate.");
 }
 
 void BBBApp::OnUnhandledException()
 {
-    FatalLog("Unexpected exception has occurred: the program will terminate.");
+    ErrorLog("Unexpected exception has occurred: the program will terminate.");
 }

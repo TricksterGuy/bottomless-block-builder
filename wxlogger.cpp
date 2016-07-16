@@ -1,6 +1,10 @@
 #include "wxlogger.hpp"
 #include <wx/msgdlg.h>
 
+#ifdef _WIN32
+#undef ERROR
+#endif
+
 void LoggerWx::Log(LogLevel level, const char* format, va_list ap)
 {
     if (level > log_level)

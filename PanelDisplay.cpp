@@ -6,7 +6,7 @@
 extern std::vector<wxBitmap> panelImages;
 
 PanelDisplay::PanelDisplay(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style,
-                           const wxString& name) : wxScrolledCanvas(parent, id, pos, size, style, name), table(12, 6)
+                           const wxString& name) : wxScrolledCanvas(parent, id, pos, size, style, name), table(12, 6), panel(Panel::EMPTY)
 {
     InfoLog("PanelDisplay");
     Connect(wxEVT_LEFT_DCLICK, wxMouseEventHandler(PanelDisplay::OnPanelMetadata), NULL, this);
@@ -49,12 +49,15 @@ void PanelDisplay::Clear()
 
 void PanelDisplay::OnDraw(wxDC& dc)
 {
+    dc.SetBrush(*wxTRANSPARENT_BRUSH);
+    dc.SetPen(*wxBLACK_PEN);
     for (int i = 0; i < table.height(); i++)
     {
         for (int j = 0; j < table.width(); j++)
         {
             Panel::Type p = table.value(i, j);
             dc.DrawRectangle(j * 16, i * 16, 16, 16);
+            if (p == Panel::EMPTY) continue;
             dc.DrawBitmap(panelImages[(int)p], j * 16, i * 16);
         }
     }

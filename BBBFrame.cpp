@@ -171,6 +171,10 @@ void BBBFrame::OnPanelChoose(wxCommandEvent& event)
 void BBBFrame::IsSolvable(wxCommandEvent& event)
 {
     InfoLog("IsSolvable");
+    int answer = wxMessageBox("This can take awhile especially with a high move count. Continue?", "Confirm", wxYES_NO, this);
+    if (answer != wxYES)
+         return;
+
     Solution s;
     bool solvable;
     wxString text;
@@ -189,6 +193,10 @@ void BBBFrame::IsSolvable(wxCommandEvent& event)
 void BBBFrame::AllSolutions(wxCommandEvent& event)
 {
     InfoLog("AllSolutions");
+    int answer = wxMessageBox("This can take awhile especially with a high move count. Continue?", "Confirm", wxYES_NO, this);
+    if (answer != wxYES)
+         return;
+
     std::vector<Solution> solutions;
     {
         EventLog l("AllSolutions");
@@ -209,6 +217,7 @@ SolutionsDialog::SolutionsDialog(std::vector<Solution>& s) : SolutionsGUI(NULL),
 {
     for (unsigned int i = 0; i < solutions.size(); i++)
         solution_choice->Append(wxString::Format("Solution %d", i + 1));
+    solution_choice->SetSelection(0);
     DoUpdateSolution(0);
 }
 
