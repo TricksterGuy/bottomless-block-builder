@@ -27,12 +27,12 @@ public:
 };
 
 
-class SolutionsDialog : public SolutionsGUI
+class SolutionsDialog : public SolutionsGui
 {
 	public:
 		SolutionsDialog(std::vector<Solution>& s);
 		~SolutionsDialog() {}
-		void OnUpdateSolution(wxCommandEvent& event);
+		void OnUpdateSolution(wxSpinEvent& event);
 		void DoUpdateSolution(int index);
     private:
         std::vector<Solution>& solutions;

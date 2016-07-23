@@ -182,12 +182,15 @@ void BBBFrame::IsSolvable(wxCommandEvent& event)
         EventLog l("IsSolvable");
         solvable = panel_display->IsSolvable(s);
     }
-    if (solvable)
-        text = wxString::Format("Puzzle is solvable\nMoves:\n%s", s.str());
-    else
-        text = "Puzzle is not solvable";
-    wxMessageBox(text, "Status");
-
+    if (!solvable)
+    {
+        wxMessageBox("Puzzle is not solvable", "Status");
+        return;
+    }
+    std::vector<Solution> solution = {s};
+    SolutionsDialog* dialog = new SolutionsDialog(solution);
+    dialog->ShowModal();
+    delete dialog;
 }
 
 void BBBFrame::AllSolutions(wxCommandEvent& event)
@@ -213,21 +216,22 @@ void BBBFrame::AllSolutions(wxCommandEvent& event)
     delete dialog;
 }
 
-SolutionsDialog::SolutionsDialog(std::vector<Solution>& s) : SolutionsGUI(NULL), solutions(s)
+SolutionsDialog::SolutionsDialog(std::vector<Solution>& s) : SolutionsGui(NULL), solutions(s)
 {
-    for (unsigned int i = 0; i < solutions.size(); i++)
-        solution_choice->Append(wxString::Format("Solution %d", i + 1));
-    solution_choice->SetSelection(0);
+    SetTitle(wxString::Format("%zd solution%s", s.size(), s.size() == 1 ? "" : "s"));
+    solution_choice->SetRange(1, solutions.size());
+    solution_choice->SetValue(1);
+    solution_choice->Enable(solutions.size() > 1);
     DoUpdateSolution(0);
 }
 
-void SolutionsDialog::OnUpdateSolution(wxCommandEvent& event)
+void SolutionsDialog::OnUpdateSolution(wxSpinEvent& event)
 {
-    DoUpdateSolution(event.GetSelection());
+    DoUpdateSolution(event.GetValue() - 1);
 }
 
 void SolutionsDialog::DoUpdateSolution(int index)
 {
     const Solution& solution = solutions[index];
-    solution_text->SetLabel(solution.str());
+    solution_text->SetValue(solution.str());
 }

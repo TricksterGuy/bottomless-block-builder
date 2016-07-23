@@ -27,9 +27,10 @@ class wxBitmapToggleButton;
 #include <wx/spinctrl.h>
 #include <wx/sizer.h>
 #include <wx/button.h>
-#include <wx/bmpbuttn.h>
 #include <wx/panel.h>
+#include <wx/bmpbuttn.h>
 #include <wx/frame.h>
+#include <wx/textctrl.h>
 #include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -50,14 +51,15 @@ class BBBGui : public wxFrame
 		wxPanel* m_panel1;
 		wxStaticText* m_staticText1;
 		wxChoice* mode;
+		wxStaticText* m_staticText2;
+		wxSpinCtrl* moves;
 		wxStaticText* linesText;
 		wxSpinCtrl* lines;
 		wxStaticText* startingLinesText;
 		wxSpinCtrl* startingLines;
-		wxStaticText* m_staticText3;
-		wxSpinCtrl* moves;
 		wxButton* m_button1;
 		wxButton* m_button2;
+		PanelDisplay* panel_display;
 		wxBitmapToggleButton* m_bpButton1;
 		wxBitmapToggleButton* m_bpButton2;
 		wxBitmapToggleButton* m_bpButton3;
@@ -67,8 +69,6 @@ class BBBGui : public wxFrame
 		wxBitmapToggleButton* m_bpButton7;
 		wxBitmapToggleButton* m_bpButton8;
 		wxBitmapToggleButton* m_bpButton9;
-		PanelDisplay* panel_display;
-		wxPanel* m_panel3;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnLoad( wxCommandEvent& event ) { event.Skip(); }
@@ -76,41 +76,41 @@ class BBBGui : public wxFrame
 		virtual void OnExit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnClear( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSetMode( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnMovesUpdate( wxSpinEvent& event ) { event.Skip(); }
 		virtual void OnLinesUpdate( wxSpinEvent& event ) { event.Skip(); }
 		virtual void OnStartingLinesUpdate( wxSpinEvent& event ) { event.Skip(); }
-		virtual void OnMovesUpdate( wxSpinEvent& event ) { event.Skip(); }
 		virtual void IsSolvable( wxCommandEvent& event ) { event.Skip(); }
 		virtual void AllSolutions( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		BBBGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Bottomless Block Builder"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 480,420 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		BBBGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Bottomless Block Builder"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 400,288 ), long style = wxCAPTION|wxCLOSE_BOX|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxSYSTEM_MENU|wxTAB_TRAVERSAL );
 		
 		~BBBGui();
 	
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class SolutionsGUI
+/// Class SolutionsGui
 ///////////////////////////////////////////////////////////////////////////////
-class SolutionsGUI : public wxDialog 
+class SolutionsGui : public wxDialog 
 {
 	private:
 	
 	protected:
-		wxPanel* m_panel4;
-		wxChoice* solution_choice;
-		wxStaticText* solution_text;
+		wxStaticText* m_staticText6;
+		wxSpinCtrl* solution_choice;
+		wxTextCtrl* solution_text;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnUpdateSolution( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnUpdateSolution( wxSpinEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		SolutionsGUI( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Solutions"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 160,240 ), long style = wxDEFAULT_DIALOG_STYLE ); 
-		~SolutionsGUI();
+		SolutionsGui( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Solutions"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 160,240 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~SolutionsGui();
 	
 };
 
