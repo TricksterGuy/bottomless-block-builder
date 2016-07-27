@@ -12,6 +12,7 @@ public:
     ~BBBFrame();
     void OnLoad(wxCommandEvent& event);
     void OnSave(wxCommandEvent& event);
+    void OnInject(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
     void OnClear(wxCommandEvent& event);
 

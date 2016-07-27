@@ -73,7 +73,6 @@ class BBBGui : public wxFrame
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnLoad( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSave( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnExit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnClear( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnSetMode( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnMovesUpdate( wxSpinEvent& event ) { event.Skip(); }
